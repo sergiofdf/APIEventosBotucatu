@@ -36,5 +36,40 @@ namespace APIEventosBotucatu.Controllers
             }
             return Ok(cityEvent);
         }
+
+        [HttpPost("/Eventos")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<CityEvent> PostCityEvent(CityEvent cityEvent)
+        {
+            _eventsService.InsertCityEvent(cityEvent);
+            return CreatedAtAction(nameof(PostCityEvent), cityEvent);
+        }
+
+        [HttpPut("/Eventos")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult UpdateCityEvent(long idEvent, CityEvent cityEvent)
+        {
+            if (!_eventsService.UpdateCityEvent(idEvent, cityEvent))
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("/Eventos")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteCityEvent(long idEvent)
+        {
+            if (!_eventsService.DeleteCityEvent(idEvent))
+            {
+                return NotFound();
+            }
+            return NoContent();
+        }
     }
 }

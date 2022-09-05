@@ -19,5 +19,18 @@ namespace APIEventosBotucatu.Core.Services
         {
             return _eventsRepository.GetCityEventById(idEvent);
         }
+
+        public bool InsertCityEvent(CityEvent cityEvent)
+        {
+            return _eventsRepository.InsertCityEvent(cityEvent);
+        }
+        public bool UpdateCityEvent(long idEvent, CityEvent cityEvent)
+        {
+            return _eventsRepository.UpdateCityEvent(idEvent, cityEvent);
+        }
+        public bool DeleteCityEvent(long idEvent)
+        {
+            return _eventsRepository.DeleteCityEvent(idEvent);
+        }
     }
 }
