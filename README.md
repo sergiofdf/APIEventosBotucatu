@@ -42,4 +42,21 @@ O projeto consiste em uma API para uma CRUD de eventos da cidade em que moro. Es
   
 - Abra a solução do projeto com o visual studio, arquivo `APIEventosBotucatu.sln`.
 
+- Dentro do projeto principal da API ('APIEventosBotucatu'), será necessário criar um arquivo `appsettings.json ` com as credenciais para acesso ao banco de dados. Segue o exemplo do modelo do conteúdo do arquivo. Troque os campos ilustrados em português pelos dados para o acesso ao banco de dados.
+
+``` 
+"Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=NomeServidor;Database=NomeBancoDeDados; User Id=Usuario; Password=Senha; Encrypt=False"
+  }
+}
+```
+
+
 - Execute o projeto com `CTRL + F5`
