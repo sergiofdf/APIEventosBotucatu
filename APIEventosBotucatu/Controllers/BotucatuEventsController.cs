@@ -24,7 +24,7 @@ namespace APIEventosBotucatu.Controllers
             return Ok(_eventsService.GetCityEvents());
         }
 
-        [HttpGet("/Eventos/{idEvent}")]
+        [HttpGet("/Eventos/{idEvento}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<CityEvent> GetEvent(long idEvent)

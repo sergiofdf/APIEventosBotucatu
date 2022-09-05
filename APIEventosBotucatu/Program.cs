@@ -19,6 +19,8 @@ namespace APIEventosBotucatu
 
             builder.Services.AddScoped<IEventsService, EventsService>();
             builder.Services.AddScoped<IEventsRepository, EventsRepository>();
+            builder.Services.AddScoped<IReservationService, ReservationService>();
+            builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 
             var app = builder.Build();
 
