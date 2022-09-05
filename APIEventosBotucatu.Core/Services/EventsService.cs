@@ -10,9 +10,14 @@ namespace APIEventosBotucatu.Core.Services
         {
             _eventsRepository = eventsRepository;
         }
+
         public List<CityEvent> GetCityEvents()
         {
             return _eventsRepository.GetCityEvents();
+        }
+        public CityEvent GetCityEventById(long idEvent)
+        {
+            return _eventsRepository.GetCityEventById(idEvent);
         }
     }
 }

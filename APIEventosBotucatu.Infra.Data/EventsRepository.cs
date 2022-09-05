@@ -23,5 +23,17 @@ namespace APIEventosBotucatu.Infra.Data
 
             return conn.Query<CityEvent>(query).ToList();
         }
+
+        public CityEvent GetCityEventById(long idEvent)
+        {
+            var query = "SELECT * FROM [sergio.dias].dbo.CityEvent WHERE IdEvent=@idEvent;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("idEvent", idEvent);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+        }
     }
 }

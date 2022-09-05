@@ -5,5 +5,6 @@ namespace APIEventosBotucatu.Core.Interfaces
     public interface IEventsRepository
     {
         List<CityEvent> GetCityEvents();
+        CityEvent GetCityEventById(long idEvent);
     }
 }
