@@ -1,5 +1,7 @@
 ﻿using APIEventosBotucatu.Core.Interfaces;
 using APIEventosBotucatu.Core.Models;
+using APIEventosBotucatu.Filters;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIEventosBotucatu.Controllers
@@ -11,10 +13,12 @@ namespace APIEventosBotucatu.Controllers
     public class BotucatuEventsController : ControllerBase
     {
         private readonly IEventsService _eventsService;
+        private readonly IMapper _mapper;
 
-        public BotucatuEventsController(IEventsService eventsService)
+        public BotucatuEventsController(IEventsService eventsService, IMapper mapper)
         {
             _eventsService = eventsService;
+            _mapper = mapper;
         }
 
         [HttpGet("/Eventos")]
@@ -24,38 +28,36 @@ namespace APIEventosBotucatu.Controllers
             return Ok(_eventsService.GetCityEvents());
         }
 
-        [HttpGet("/Eventos/{idEvento}")]
+        [HttpGet("/Eventos/{idEvent}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ServiceFilter(typeof(CheckIfEventIdRegisteredActionFilter))]
         public ActionResult<CityEvent> GetEvent(long idEvent)
         {
-            var cityEvent = _eventsService.GetCityEventById(idEvent);
-            if (cityEvent == null)
-            {
-                return NotFound();
-            }
-            return Ok(cityEvent);
+            return Ok(_eventsService.GetCityEventById(idEvent));
         }
 
         [HttpPost("/Eventos")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<CityEvent> PostCityEvent(CityEvent cityEvent)
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ServiceFilter(typeof(CheckIfEventExistsActionFilter))]
+        public ActionResult<CityEvent> PostCityEvent(CityEventDTO cityEvent)
         {
-            _eventsService.InsertCityEvent(cityEvent);
-            return CreatedAtAction(nameof(PostCityEvent), cityEvent);
+            CityEvent cityEventMapped = _mapper.Map<CityEvent>(cityEvent);
+            var result = _eventsService.InsertCityEvent(cityEventMapped);
+            return CreatedAtAction(nameof(PostCityEvent), result);
         }
 
         [HttpPut("/Eventos")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult UpdateCityEvent(long idEvent, CityEvent cityEvent)
+        [ServiceFilter(typeof(CheckIfEventIdRegisteredActionFilter))]
+        public IActionResult UpdateCityEvent(long idEvent, CityEventDTO cityEvent)
         {
-            if (!_eventsService.UpdateCityEvent(idEvent, cityEvent))
-            {
-                return NotFound();
-            }
+            CityEvent cityEventMapped = _mapper.Map<CityEvent>(cityEvent);
+            _eventsService.UpdateCityEvent(idEvent, cityEventMapped);
             return NoContent();
         }
 

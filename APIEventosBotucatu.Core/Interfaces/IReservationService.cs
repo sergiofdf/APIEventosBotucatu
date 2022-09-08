@@ -6,7 +6,8 @@ namespace APIEventosBotucatu.Core.Interfaces
     {
         List<EventReservation> GetReservations();
         EventReservation GetReservationById(long idReservation);
-        bool InsertReservation(EventReservation eventReservation);
+        EventReservation GetReservationByEventIdAndPersonName(long idEvent, string personName);
+        EventReservation InsertReservation(EventReservation eventReservation);
         bool UpdateReservation(long idReservation, EventReservation eventReservation);
         bool DeleteReservation(long idReservation);
     }

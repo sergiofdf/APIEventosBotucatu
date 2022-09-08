@@ -36,6 +36,19 @@ namespace APIEventosBotucatu.Infra.Data
             return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
         }
 
+        public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
+        {
+            var query = "SELECT * FROM CityEvent WHERE title=@title AND dateHourEvent=@dateHourEvent;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("title", eventTitle);
+            parameters.Add("dateHourEvent", eventDate);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+        }
+
         public bool InsertCityEvent(CityEvent cityEvent)
         {
             var query = "INSERT INTO CityEvent VALUES(@title, @description, @dateHourEvent, @local, @adress, @price);";

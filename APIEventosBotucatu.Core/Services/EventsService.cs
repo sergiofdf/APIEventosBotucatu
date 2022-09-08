@@ -20,9 +20,15 @@ namespace APIEventosBotucatu.Core.Services
             return _eventsRepository.GetCityEventById(idEvent);
         }
 
-        public bool InsertCityEvent(CityEvent cityEvent)
+        public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
         {
-            return _eventsRepository.InsertCityEvent(cityEvent);
+            return _eventsRepository.GetCityEventByTitleAndDate(eventTitle, eventDate);
+        }
+
+        public CityEvent InsertCityEvent(CityEvent cityEvent)
+        {
+            _eventsRepository.InsertCityEvent(cityEvent);
+            return _eventsRepository.GetCityEventByTitleAndDate(cityEvent.Title, cityEvent.DateHourEvent);
         }
         public bool UpdateCityEvent(long idEvent, CityEvent cityEvent)
         {

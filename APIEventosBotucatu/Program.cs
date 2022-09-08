@@ -1,6 +1,8 @@
 using APIEventosBotucatu.Core.Interfaces;
 using APIEventosBotucatu.Core.Services;
+using APIEventosBotucatu.Filters;
 using APIEventosBotucatu.Infra.Data;
+using APIEventosBotucatu.Mappers;
 
 namespace APIEventosBotucatu
 {
@@ -17,10 +19,21 @@ namespace APIEventosBotucatu
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAutoMapper(typeof(ModelsMapper));
+
+            builder.Services.AddMvc(options =>
+            {
+                options.Filters.Add<GeneralExceptionFilter>();
+            });
+
             builder.Services.AddScoped<IEventsService, EventsService>();
             builder.Services.AddScoped<IEventsRepository, EventsRepository>();
             builder.Services.AddScoped<IReservationService, ReservationService>();
             builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            builder.Services.AddScoped<CheckIfEventIdRegisteredActionFilter>();
+            builder.Services.AddScoped<CheckIfEventIdRegisteredActionFilter>();
+            builder.Services.AddScoped<CheckIfEventExistsActionFilter>();
 
             var app = builder.Build();
 

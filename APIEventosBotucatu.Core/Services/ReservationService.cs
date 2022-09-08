@@ -20,9 +20,15 @@ namespace APIEventosBotucatu.Core.Services
             return _reservationRepository.GetReservationById(idReservation);
         }
 
-        public bool InsertReservation(EventReservation eventReservation)
+        public EventReservation GetReservationByEventIdAndPersonName(long idEvent, string personName)
         {
-            return _reservationRepository.InsertReservation(eventReservation);
+            return _reservationRepository.GetReservationByEventIdAndPersonName(idEvent, personName);
+        }
+
+        public EventReservation InsertReservation(EventReservation eventReservation)
+        {
+            _reservationRepository.InsertReservation(eventReservation);
+            return _reservationRepository.GetReservationByEventIdAndPersonName(eventReservation.IdEvent, eventReservation.PersonName);
         }
 
         public bool UpdateReservation(long idReservation, EventReservation eventReservation)

@@ -34,6 +34,19 @@ namespace APIEventosBotucatu.Infra.Data
             return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
         }
 
+        public EventReservation GetReservationByEventIdAndPersonName(long idEvent, string personName)
+        {
+            var query = "SELECT * FROM EventReservation WHERE idEvent=@idEvent AND personName=@personName;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("idEvent", idEvent);
+            parameters.Add("personName", personName);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+        }
+
         public bool InsertReservation(EventReservation eventReservation)
         {
             var query = "INSERT INTO EventReservation VALUES(@idEvent, @personName, @quantity);";
