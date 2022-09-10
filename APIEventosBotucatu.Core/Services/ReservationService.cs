@@ -20,6 +20,11 @@ namespace APIEventosBotucatu.Core.Services
             return _reservationRepository.GetReservationById(idReservation);
         }
 
+        public List<EventReservation> GetReservationsByEventId(long idEvent)
+        {
+            return _reservationRepository.GetReservationsByEventId(idEvent);
+        }
+
         public EventReservation GetReservationByEventIdAndPersonName(long idEvent, string personName)
         {
             return _reservationRepository.GetReservationByEventIdAndPersonName(idEvent, personName);

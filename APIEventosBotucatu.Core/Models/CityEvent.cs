@@ -14,5 +14,6 @@ namespace APIEventosBotucatu.Core.Models
         public string Local { get; set; }
         public string Adress { get; set; }
         public decimal Price { get; set; }
+        public bool Status { get; set; } = true;
     }
 }

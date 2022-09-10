@@ -6,9 +6,11 @@ namespace APIEventosBotucatu.Core.Services
     public class EventsService : IEventsService
     {
         public IEventsRepository _eventsRepository;
-        public EventsService(IEventsRepository eventsRepository)
+        public IReservationService _reservationService;
+        public EventsService(IEventsRepository eventsRepository, IReservationService reservationService)
         {
             _eventsRepository = eventsRepository;
+            _reservationService = reservationService;
         }
 
         public List<CityEvent> GetCityEvents()
@@ -18,6 +20,11 @@ namespace APIEventosBotucatu.Core.Services
         public CityEvent GetCityEventById(long idEvent)
         {
             return _eventsRepository.GetCityEventById(idEvent);
+        }
+
+        public List<CityEvent> GetCityEventsByTitle(string eventTitle)
+        {
+            return _eventsRepository.GetCityEventsByTitle(eventTitle);
         }
 
         public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
@@ -36,7 +43,14 @@ namespace APIEventosBotucatu.Core.Services
         }
         public bool DeleteCityEvent(long idEvent)
         {
-            return _eventsRepository.DeleteCityEvent(idEvent);
+            var listEventsReservation = _reservationService.GetReservationsByEventId(idEvent);
+            if (listEventsReservation.Count == 0)
+            {
+                return _eventsRepository.DeleteCityEvent(idEvent);
+            }
+            CityEvent cityEvent = GetCityEventById(idEvent);
+            cityEvent.Status = false;
+            return _eventsRepository.UpdateCityEvent(idEvent, cityEvent);
         }
     }
 }

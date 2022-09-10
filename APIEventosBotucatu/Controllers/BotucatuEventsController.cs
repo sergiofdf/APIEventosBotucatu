@@ -28,13 +28,26 @@ namespace APIEventosBotucatu.Controllers
             return Ok(_eventsService.GetCityEvents());
         }
 
-        [HttpGet("/Eventos/{idEvent}")]
+        [HttpGet("/Eventos/id/{idEvent}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ServiceFilter(typeof(CheckIfEventIdRegisteredActionFilter))]
         public ActionResult<CityEvent> GetEvent(long idEvent)
         {
             return Ok(_eventsService.GetCityEventById(idEvent));
+        }
+
+        [HttpGet("/Eventos/title/{eventTitle}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<List<CityEvent>> GetEventByTitle(string eventTitle)
+        {
+            var eventsList = _eventsService.GetCityEventsByTitle(eventTitle);
+            if (!eventsList.Any())
+            {
+                return NotFound();
+            }
+            return Ok(_eventsService.GetCityEventsByTitle(eventTitle));
         }
 
         [HttpPost("/Eventos")]

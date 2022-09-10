@@ -6,6 +6,7 @@ namespace APIEventosBotucatu.Core.Interfaces
     {
         List<CityEvent> GetCityEvents();
         CityEvent GetCityEventById(long idEvent);
+        List<CityEvent> GetCityEventsByTitle(string eventTitle);
         CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate);
         bool InsertCityEvent(CityEvent cityEvent);
         bool UpdateCityEvent(long idEvent, CityEvent cityEvent);
