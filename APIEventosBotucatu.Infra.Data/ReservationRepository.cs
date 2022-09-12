@@ -57,6 +57,23 @@ namespace APIEventosBotucatu.Infra.Data
             return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
         }
 
+        public List<ReservationWithTitleDTO> GetReservationsByPersonNameAndEventTitle(string personName, string eventTitle)
+        {
+            var query = @"SELECT er.IdReservation, er.IdEvent, er.PersonName, er.Quantity, ce.Title 
+FROM EventReservation er JOIN CityEvent ce
+ON er.IdEvent = ce.IdEvent
+WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%');";
+
+
+            var parameters = new DynamicParameters();
+            parameters.Add("personName", personName);
+            parameters.Add("eventTitle", eventTitle);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.Query<ReservationWithTitleDTO>(query, parameters).ToList();
+        }
+
         public bool InsertReservation(EventReservation eventReservation)
         {
             var query = "INSERT INTO EventReservation VALUES(@idEvent, @personName, @quantity);";
@@ -74,6 +91,19 @@ namespace APIEventosBotucatu.Infra.Data
 
             eventReservation.IdReservation = idReservation;
             var parameters = new DynamicParameters(eventReservation);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.Execute(query, parameters) == 1;
+        }
+
+        public bool UpdateReservationQuantity(long idReservation, long quantity)
+        {
+            var query = "UPDATE EventReservation SET quantity=@quantity WHERE idReservation=@idReservation;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("idReservation", idReservation);
+            parameters.Add("quantity", quantity);
 
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 

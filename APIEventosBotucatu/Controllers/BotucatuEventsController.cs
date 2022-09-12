@@ -47,7 +47,33 @@ namespace APIEventosBotucatu.Controllers
             {
                 return NotFound();
             }
-            return Ok(_eventsService.GetCityEventsByTitle(eventTitle));
+            return Ok(eventsList);
+        }
+
+        [HttpGet("/Eventos/localAndDate/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<List<CityEvent>> GetEventByLocalAndDate(string local, DateTime dateEvent)
+        {
+            var eventsList = _eventsService.GetCityEventsByLocalAndDate(local, dateEvent);
+            if (!eventsList.Any())
+            {
+                return NotFound();
+            }
+            return Ok(eventsList);
+        }
+
+        [HttpGet("/Eventos/priceRangeAndDate/")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<List<CityEvent>> GetEventByPriceRangeAndDate(decimal minPrice, decimal maxPrice, DateTime dateEvent)
+        {
+            var eventsList = _eventsService.GetCityEventByPriceRangeAndDate(minPrice, maxPrice, dateEvent);
+            if (!eventsList.Any())
+            {
+                return NotFound();
+            }
+            return Ok(eventsList);
         }
 
         [HttpPost("/Eventos")]

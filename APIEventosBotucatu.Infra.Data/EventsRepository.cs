@@ -48,17 +48,44 @@ namespace APIEventosBotucatu.Infra.Data
             return conn.Query<CityEvent>(query, parameters).ToList();
         }
 
+        public List<CityEvent> GetCityEventsByLocalAndDate(string local, DateTime dateHourEvent)
+        {
+            var query = "SELECT * FROM CityEvent WHERE local =@local AND CONVERT(DATE, dateHourEvent)=@dateHourEvent ;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("local", local);
+            parameters.Add("dateHourEvent", dateHourEvent.Date);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.Query<CityEvent>(query, parameters).ToList();
+        }
+
         public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
         {
-            var query = "SELECT * FROM CityEvent WHERE title=@title AND dateHourEvent=@dateHourEvent;";
+            var query = "SELECT * FROM CityEvent WHERE title=@title AND CONVERT(DATE, dateHourEvent)=@dateHourEvent;";
 
             var parameters = new DynamicParameters();
             parameters.Add("title", eventTitle);
-            parameters.Add("dateHourEvent", eventDate);
+            parameters.Add("dateHourEvent", eventDate.Date);
 
             using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
             return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+        }
+
+        public List<CityEvent> GetCityEventByPriceRangeAndDate(decimal minPrice, decimal maxPrice, DateTime eventDate)
+        {
+            var query = "SELECT * FROM CityEvent WHERE price >= @minprice AND price <= @maxPrice AND CONVERT(DATE, dateHourEvent)=@dateHourEvent;";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("minPrice", minPrice);
+            parameters.Add("maxPrice", maxPrice);
+            parameters.Add("dateHourEvent", eventDate.Date);
+
+            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+            return conn.Query<CityEvent>(query, parameters).ToList();
         }
 
         public bool InsertCityEvent(CityEvent cityEvent)

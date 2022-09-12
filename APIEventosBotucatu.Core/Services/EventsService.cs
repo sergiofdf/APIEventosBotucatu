@@ -27,9 +27,19 @@ namespace APIEventosBotucatu.Core.Services
             return _eventsRepository.GetCityEventsByTitle(eventTitle);
         }
 
+        public List<CityEvent> GetCityEventsByLocalAndDate(string local, DateTime dateHourEvent)
+        {
+            return _eventsRepository.GetCityEventsByLocalAndDate(local, dateHourEvent);
+        }
+
         public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
         {
             return _eventsRepository.GetCityEventByTitleAndDate(eventTitle, eventDate);
+        }
+
+        public List<CityEvent> GetCityEventByPriceRangeAndDate(decimal minPrice, decimal maxPrice, DateTime eventDate)
+        {
+            return _eventsRepository.GetCityEventByPriceRangeAndDate(minPrice, maxPrice, eventDate);
         }
 
         public CityEvent InsertCityEvent(CityEvent cityEvent)
