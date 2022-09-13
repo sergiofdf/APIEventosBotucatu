@@ -31,7 +31,10 @@ O projeto consiste em uma API para uma CRUD de eventos da cidade em que moro. Es
 - Arquitetura em camadas;
 - Uso de injeção de dependência;
 - Utilização de filtros (ActionFilter e ExceptionFilter) para validações e tratar erros;
-- Utilização de DTO e automapper para não mostrar dados desnecessários.
+- Utilização de DTO e automapper para não mostrar dados desnecessários;
+- Definição e aplicação de políticas de CORS;
+- Criação e consumo de tokens do tipo JWT para autenticação;
+- Definição de autorizações baseado na autenticação (role via claims).
 
 <br>
 
