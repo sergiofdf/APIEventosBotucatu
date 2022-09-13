@@ -58,11 +58,11 @@ namespace APIEventosBotucatu
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
+                    Type = SecuritySchemeType.Http,
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Autenticação baseada em Json Web Token (JWT)"
+                    Description = "Autenticação baseada em Json Web Token (JWT). Entrar SOMENTE com o token no campo abaixo."
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
