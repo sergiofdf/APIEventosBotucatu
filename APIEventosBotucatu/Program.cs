@@ -24,12 +24,9 @@ namespace APIEventosBotucatu
                     policy =>
                     {
                         policy.WithOrigins("https://localhost:7179")
-                                //.WithHeaders("x-teste")
-                                .WithMethods("GET", "POST", "PUT", "DELETE");
+                              .WithMethods("GET", "POST", "PUT", "DELETE");
 
-                        //policy.AllowAnyOrigin();
                         policy.AllowAnyHeader();
-                        //policy.AllowAnyMethod();
                     });
             });
 

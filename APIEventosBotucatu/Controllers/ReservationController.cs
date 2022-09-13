@@ -1,6 +1,8 @@
 ﻿using APIEventosBotucatu.Core.Interfaces;
 using APIEventosBotucatu.Core.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIEventosBotucatu.Controllers
@@ -9,6 +11,8 @@ namespace APIEventosBotucatu.Controllers
     [Route("[controller]")]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [EnableCors("PolicyCors")]
+    [Authorize]
     public class ReservationController : ControllerBase
     {
         private IReservationService _reservationService;
@@ -21,6 +25,7 @@ namespace APIEventosBotucatu.Controllers
 
         [HttpGet("/Reservas")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public ActionResult<List<EventReservation>> GetAllReservations()
         {
             return Ok(_reservationService.GetReservations());
@@ -29,6 +34,7 @@ namespace APIEventosBotucatu.Controllers
         [HttpGet("/Reservas/{idReservation}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public ActionResult<EventReservation> GetReservation(long idReservation)
         {
             var eventReservation = _reservationService.GetReservationById(idReservation);
@@ -42,6 +48,7 @@ namespace APIEventosBotucatu.Controllers
         [HttpGet("/Reservas/NomePessoaENomeEvento")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize]
         public ActionResult<ReservationWithTitleDTO> GetReservationByPersonNameAndEventTitle(string personName, string eventTitle)
         {
             var eventReservation = _reservationService.GetReservationsByPersonNameAndEventTitle(personName, eventTitle);
@@ -55,6 +62,7 @@ namespace APIEventosBotucatu.Controllers
         [HttpPost("/Reservas")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "cliente, admin")]
         public ActionResult<EventReservation> PostEventReservation(EventReservationDTO eventReservation)
         {
             EventReservation eventMapped = _mapper.Map<EventReservation>(eventReservation);
@@ -66,6 +74,7 @@ namespace APIEventosBotucatu.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateReservation(long idReservation, EventReservationDTO eventReservation)
         {
             EventReservation eventMapped = _mapper.Map<EventReservation>(eventReservation);
@@ -80,6 +89,7 @@ namespace APIEventosBotucatu.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateReservationQuantity(long idReservation, long quantity)
         {
             if (!_reservationService.UpdateReservationQuantity(idReservation, quantity))
@@ -93,6 +103,7 @@ namespace APIEventosBotucatu.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "admin")]
         public IActionResult DeleteCityEvent(long idReservation)
         {
             if (!_reservationService.DeleteReservation(idReservation))
