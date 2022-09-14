@@ -50,7 +50,7 @@ namespace APIEventosBotucatu.Infra.Data
 
         public List<CityEvent> GetCityEventsByLocalAndDate(string local, DateTime dateHourEvent)
         {
-            var query = "SELECT * FROM CityEvent WHERE local =@local AND CONVERT(DATE, dateHourEvent)=@dateHourEvent ;";
+            var query = "SELECT * FROM CityEvent WHERE local LIKE CONCAT('%',@local,'%') AND CONVERT(DATE, dateHourEvent)=@dateHourEvent ;";
 
             var parameters = new DynamicParameters();
             parameters.Add("local", local);
