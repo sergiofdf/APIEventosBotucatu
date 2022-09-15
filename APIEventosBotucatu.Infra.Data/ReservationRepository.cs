@@ -18,9 +18,18 @@ namespace APIEventosBotucatu.Infra.Data
         {
             var query = "SELECT * FROM EventReservation;";
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<EventReservation>(query).ToList();
+                return conn.Query<EventReservation>(query).ToList();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return null;
+            }
+
         }
         public EventReservation GetReservationById(long idReservation)
         {
@@ -29,9 +38,17 @@ namespace APIEventosBotucatu.Infra.Data
             var parameters = new DynamicParameters();
             parameters.Add("idReservation", idReservation);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+                return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return null;
+            }
         }
         public List<EventReservation> GetReservationsByEventId(long idEvent)
         {
@@ -40,9 +57,18 @@ namespace APIEventosBotucatu.Infra.Data
             var parameters = new DynamicParameters();
             parameters.Add("idEvent", idEvent);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<EventReservation>(query, parameters).ToList();
+                return conn.Query<EventReservation>(query, parameters).ToList();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return null;
+            }
+
         }
         public EventReservation GetReservationByEventIdAndPersonName(long idEvent, string personName)
         {
@@ -52,9 +78,17 @@ namespace APIEventosBotucatu.Infra.Data
             parameters.Add("idEvent", idEvent);
             parameters.Add("personName", personName);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+                return conn.QueryFirstOrDefault<EventReservation>(query, parameters);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return null;
+            }
         }
 
         public List<ReservationWithTitleDTO> GetReservationsByPersonNameAndEventTitle(string personName, string eventTitle)
@@ -69,9 +103,17 @@ WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%'
             parameters.Add("personName", personName);
             parameters.Add("eventTitle", eventTitle);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<ReservationWithTitleDTO>(query, parameters).ToList();
+                return conn.Query<ReservationWithTitleDTO>(query, parameters).ToList();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return null;
+            }
         }
 
         public bool InsertReservation(EventReservation eventReservation)
@@ -80,9 +122,17 @@ WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%'
 
             var parameters = new DynamicParameters(eventReservation);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return false;
+            }
         }
 
         public bool UpdateReservation(long idReservation, EventReservation eventReservation)
@@ -92,9 +142,17 @@ WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%'
             eventReservation.IdReservation = idReservation;
             var parameters = new DynamicParameters(eventReservation);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return false;
+            }
         }
 
         public bool UpdateReservationQuantity(long idReservation, long quantity)
@@ -105,9 +163,17 @@ WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%'
             parameters.Add("idReservation", idReservation);
             parameters.Add("quantity", quantity);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return false;
+            }
         }
         public bool DeleteReservation(long idReservation)
         {
@@ -116,9 +182,17 @@ WHERE er.PersonName = @personName AND ce.Title LIKE CONCAT('%', @eventTitle, '%'
             var parameters = new DynamicParameters();
             parameters.Add("idReservation", idReservation);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                return false;
+            }
         }
     }
 }

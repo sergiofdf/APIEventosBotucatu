@@ -24,14 +24,14 @@ namespace APIEventosBotucatu
                     policy =>
                     {
                         policy.WithOrigins("https://localhost:7179")
+                               .WithOrigins("http://127.0.0.1:5173")
+                               .WithOrigins("https://eventos-botucatu-sergio.netlify.app")
                               .WithMethods("GET", "POST", "PUT", "DELETE");
-
                         policy.AllowAnyHeader();
                     });
             });
 
             builder.Services.AddControllers();
-
 
             var key = Encoding.ASCII.GetBytes(builder.Configuration["secretKey"]);
 
@@ -80,7 +80,6 @@ namespace APIEventosBotucatu
                 });
             });
 
-
             builder.Services.AddAutoMapper(typeof(ModelsMapper));
 
             builder.Services.AddMvc(options =>
@@ -96,6 +95,7 @@ namespace APIEventosBotucatu
             builder.Services.AddScoped<CheckIfEventIdRegisteredActionFilter>();
             builder.Services.AddScoped<CheckIfEventIdRegisteredActionFilter>();
             builder.Services.AddScoped<CheckIfEventExistsActionFilter>();
+            builder.Services.AddScoped<CheckReservationExistsActionFilter>();
 
             var app = builder.Build();
 

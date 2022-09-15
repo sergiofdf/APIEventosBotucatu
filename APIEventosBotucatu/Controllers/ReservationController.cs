@@ -1,5 +1,6 @@
 ﻿using APIEventosBotucatu.Core.Interfaces;
 using APIEventosBotucatu.Core.Models;
+using APIEventosBotucatu.Filters;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -62,6 +63,7 @@ namespace APIEventosBotucatu.Controllers
         [HttpPost("/Reservas")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ServiceFilter(typeof(CheckReservationExistsActionFilter))]
         [Authorize(Roles = "cliente, admin")]
         public ActionResult<EventReservation> PostEventReservation(EventReservationDTO eventReservation)
         {

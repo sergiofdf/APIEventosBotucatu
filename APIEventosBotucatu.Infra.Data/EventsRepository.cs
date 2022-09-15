@@ -90,7 +90,7 @@ namespace APIEventosBotucatu.Infra.Data
 
         public bool InsertCityEvent(CityEvent cityEvent)
         {
-            var query = "INSERT INTO CityEvent VALUES(@title, @description, @dateHourEvent, @local, @adress, @price, @status);";
+            var query = "INSERT INTO CityEvent VALUES(@title, @description, @dateHourEvent, @local, @address, @price, @status);";
 
             var parameters = new DynamicParameters(cityEvent);
 
@@ -101,7 +101,7 @@ namespace APIEventosBotucatu.Infra.Data
 
         public bool UpdateCityEvent(long idEvent, CityEvent cityEvent)
         {
-            var query = "UPDATE CityEvent SET title=@title, description=@description, dateHourEvent=@dateHourEvent, local=@local, adress=@adress, price=@price, status=@status  WHERE idEvent=@idEvent;";
+            var query = "UPDATE CityEvent SET title=@title, description=@description, dateHourEvent=@dateHourEvent, local=@local, address=@address, price=@price, status=@status  WHERE idEvent=@idEvent;";
 
             cityEvent.IdEvent = idEvent;
             var parameters = new DynamicParameters(cityEvent);
