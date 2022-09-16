@@ -19,9 +19,17 @@ namespace APIEventosBotucatu.Infra.Data
         {
             var query = "SELECT * FROM CityEvent;";
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<CityEvent>(query).ToList();
+                return conn.Query<CityEvent>(query).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public CityEvent GetCityEventById(long idEvent)
@@ -31,9 +39,17 @@ namespace APIEventosBotucatu.Infra.Data
             var parameters = new DynamicParameters();
             parameters.Add("idEvent", idEvent);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+                return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public List<CityEvent> GetCityEventsByTitle(string eventTitle)
@@ -43,9 +59,17 @@ namespace APIEventosBotucatu.Infra.Data
             var parameters = new DynamicParameters();
             parameters.Add("title", eventTitle);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<CityEvent>(query, parameters).ToList();
+                return conn.Query<CityEvent>(query, parameters).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public List<CityEvent> GetCityEventsByLocalAndDate(string local, DateTime dateHourEvent)
@@ -56,9 +80,17 @@ namespace APIEventosBotucatu.Infra.Data
             parameters.Add("local", local);
             parameters.Add("dateHourEvent", dateHourEvent.Date);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<CityEvent>(query, parameters).ToList();
+                return conn.Query<CityEvent>(query, parameters).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public CityEvent GetCityEventByTitleAndDate(string eventTitle, DateTime eventDate)
@@ -69,9 +101,17 @@ namespace APIEventosBotucatu.Infra.Data
             parameters.Add("title", eventTitle);
             parameters.Add("dateHourEvent", eventDate.Date);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+                return conn.QueryFirstOrDefault<CityEvent>(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public List<CityEvent> GetCityEventByPriceRangeAndDate(decimal minPrice, decimal maxPrice, DateTime eventDate)
@@ -83,9 +123,17 @@ namespace APIEventosBotucatu.Infra.Data
             parameters.Add("maxPrice", maxPrice);
             parameters.Add("dateHourEvent", eventDate.Date);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Query<CityEvent>(query, parameters).ToList();
+                return conn.Query<CityEvent>(query, parameters).ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public bool InsertCityEvent(CityEvent cityEvent)
@@ -94,9 +142,17 @@ namespace APIEventosBotucatu.Infra.Data
 
             var parameters = new DynamicParameters(cityEvent);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public bool UpdateCityEvent(long idEvent, CityEvent cityEvent)
@@ -106,9 +162,17 @@ namespace APIEventosBotucatu.Infra.Data
             cityEvent.IdEvent = idEvent;
             var parameters = new DynamicParameters(cityEvent);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
 
         public bool DeleteCityEvent(long idEvent)
@@ -118,9 +182,17 @@ namespace APIEventosBotucatu.Infra.Data
             var parameters = new DynamicParameters();
             parameters.Add("idEvent", idEvent);
 
-            using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+            try
+            {
+                using var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
 
-            return conn.Execute(query, parameters) == 1;
+                return conn.Execute(query, parameters) == 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao comunicar com banco. \n\nMessage: {ex.Message} \n\nTarget Site: {ex.TargetSite} \n\nStack Trace: {ex.StackTrace}");
+                throw;
+            }
         }
     }
 }
