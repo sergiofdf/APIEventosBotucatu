@@ -59,7 +59,8 @@ O projeto consiste em uma API para uma CRUD de eventos da cidade em que moro. Es
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "DefaultConnection": "Server=NomeServidor;Database=NomeBancoDeDados; User Id=Usuario; Password=Senha; Encrypt=False"
-  }
+  },
+  "secretKey": "chave para criar token JWT"
 }
 ```
 
